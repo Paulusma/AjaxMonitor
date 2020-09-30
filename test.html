@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <script>
+  </script>
+
+  <meta charset="utf-8">
+  <title>Ajax monitor</title>
+  <script src="jquery.js"></script>
+
+</head>
+
+<script>
+
+try {
+    fetch("Fetch POST with blob in request", {
+      method: "POST",
+      body: new Blob(['abc123'], { type: 'text/plain' })
+    });
+  } catch (error) {
+    //yum!
+  }
+
+  try {
+    var myArray = new ArrayBuffer(512);
+    var longInt8View = new Uint8Array(myArray);
+    for (var i = 0; i < longInt8View.length; i++) {
+      longInt8View[i] = i % 256;
+    }
+    var xhra = new XMLHttpRequest;
+    xhra.open("POST", "Plain ajax POST with array in request", false);
+    xhra.send(myArray);
+  } catch (error) {
+    //yum!
+
+  }
+
+  try {
+    var oReq = new XMLHttpRequest();
+    oReq.open("POST", "Plain ajax POST with blob in request", true);
+    oReq.send(new Blob(['abc123'], { type: 'text/plain' }));
+  } catch (error) {
+    //yum!
+  }
+
+  try {
+    var xhra = new XMLHttpRequest;
+    fetch("Fetch POST with with array in request", {
+      method: "POST",
+      body: myArray
+    });
+  } catch (error) {
+    //yum!
+  }
+
+  var opts = {
+    "comment": "Fetch with specific initializers",
+    method: 'GET',
+    cache: 'no-cache',
+    redirect: 'follow',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+  };
+  fetch("https://api.thecatapi.com/v1/images/search?limit=5", { "comment": "Plain fetch with query string" });
+  fetch("https://api.thecatapi.com/v1/images/search?limit=5", opts);
+  fetch(new Request('https://api.thecatapi.com/v1/images/search?limit=5',
+    {
+      method: 'GET',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    }));
+
+  var xhrh2 = new XMLHttpRequest();
+  xhrh2.open('GET', 'https://api.thecatapi.com/v1/images/search?limit=5');
+  xhrh2.send("Plain ajax with query string");
+
+  $.ajax({
+    url: "https://api.thecatapi.com/v1/images/search",
+    headers: { myheader: "123", test2: "test" },
+    data: {
+      comment: "jQuery with query string & specific initializers",
+      limit: 25, page: 10, order: "Desc"
+    },
+    type: "GET",
+    dataType: "json",
+  });
+
+  var data = new FormData();
+  data.append('COMMENT', 'Plain ajax POST with formdata in request');
+  data.append('user', 'person');
+  data.append('requiredkey', 'key1');
+  data.append('requiredkey', 'key2');
+  data.append('pwd', 'password');
+  data.append('organization', 'place');
+  data.append('requiredkey', 'key3');
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'https://jsonplaceholder.typicode.com/posts', true);
+  xhr.send(data);
+
+  xhr = new XMLHttpRequest();
+  xhr.open("PUT", 'Plain ajax with multiple & custum headers');
+  xhr.setRequestHeader('Authorization', 'bumblebee');
+  xhr.setRequestHeader('Authorization', 'numphy');
+  xhr.setRequestHeader('myheader', 'value1');
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send(JSON.stringify(xhr));
+
+  $.ajax({
+    url: 'jQuery with multiple & custum headers', headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+      'myheader': 'value1',
+      'x-some-other-header': 'some value'
+    }
+  });
+
+  // Ajax, different types
+  $.ajax({ url: "https://freegeoip.app/json/" });
+  $.ajax({ url: "https://cdn.cookielaw.org/vendorlist/iab2Data.json" });
+  $.ajax({ url: "https://www.facebook.com/x/oauth/status?client_id=697815077019842&input_token&origin=1&redirect_uri=https%3A%2F%2Fwww.nu.nl%2F&sdk=joey&wants_cookie_data=true" });
+  $.ajax({ url: "https://videos-cloudflare.jwpsrv.com/content/conversions/Lki3qXBc/videos/pTZ7yMTx-31795745.mp4-1.ts" });
+  $.ajax({ url: "https://www.youtube.com/watch?v=3K98yzaOww4" });
+  $.ajax({ url: "https://freemp3downloads.online/download?url=UG3VcCAlUgE" });
+  $.ajax({ url: "https://jsonplaceholder.typicode.com/posts" });
+  $.ajax({ url: "https://www.mozilla.org/favicon.ico" });
+  $.ajax({ url: "https://cdn.cookielaw.org/vendorlist" });
+  $.ajax({ url: "https://jsonplaceholder.typicode.com" });
+
+  // Fetch, different types
+  fetch("https://freegeoip.app/json/");
+  fetch("https://cdn.cookielaw.org/vendorlist/iab2Data.json");
+  fetch("https://www.facebook.com/x/oauth/status?client_id=697815077019842&input_token&origin=1&redirect_uri=https%3A%2F%2Fwww.nu.nl%2F&sdk=joey&wants_cookie_data=true");
+  fetch("https://videos-cloudflare.jwpsrv.com/content/conversions/Lki3qXBc/videos/pTZ7yMTx-31795745.mp4-1.ts");
+  fetch("https://www.youtube.com/watch?v=3K98yzaOww4");
+  fetch("https://freemp3downloads.online/download?url=UG3VcCAlUgE");
+  fetch("https://jsonplaceholder.typicode.com/posts");
+  fetch(new Request('https://www.mozilla.org/favicon.ico'));
+  fetch("https://cdn.cookielaw.org/vendorlist");
+  fetch("https://jsonplaceholder.typicode.com");
+
+  // variations on method
+  $.post('https://jsonplaceholder.typicode.com/posts');
+  fetch('https://jsonplaceholder.typicode.com/posts', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'foo',
+      body: 'bar',
+      userId: 1
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    }
+  });
+  $.ajax({
+    url: 'https://jsonplaceholder.typicode.com/posts/1',
+    type: "put"
+  });
+  fetch('https://jsonplaceholder.typicode.com/posts/1', {
+    method: 'PUT',
+    body: JSON.stringify({
+      id: 1,
+      title: 'foo',
+      body: 'bar',
+      userId: 1
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    }
+  });
+  fetch('https://jsonplaceholder.typicode.com/posts/1', {
+    method: 'PATCH',
+    body: JSON.stringify({
+      title: 'foo'
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    }
+  });
+  fetch('https://jsonplaceholder.typicode.com/posts/1', {
+    method: 'DELETE',
+  });
+  $.ajax({
+    url: 'https://jsonplaceholder.typicode.com/posts/1',
+    type: 'PATCH',
+  });
+  $.ajax({
+    url: 'https://jsonplaceholder.typicode.com/posts/1',
+    type: 'DELETE'
+  });
+  fetch('https://jsonplaceholder.typicode.com/posts?userId=1');
+
+  // incorrect input and other error conditions
+  $.ajax({ url: "https://cat-fact.herokuapp.com/facts" }, { timeout: 100 }); // force timeout
+  $.ajax({ url: "https://freedqfewfgeoip.app/json/" }); // invalid urlS
+  fetch("idaofpwdfifdf");
+  //todo abort
+
+
+  $.ajax({
+    url: 'jQuery with an invalid header',
+    headers: {
+      "invalidvalue": '请求时发生错误',
+    }
+  });
+
+  // sync calls
+  $.ajax({ url: "https://freegeoip.app/json/" }, { async: false });
+
+
+  // Single&multiple file uploads
+  async function saveFile(inp) {
+    let formData = new FormData();
+    formData.append("xxx", inp.files[0]);
+    $.ajax({
+      url: 'Ajax test upload single file',
+      type: 'POST',
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false
+    });
+    await fetch('Fetch test upload single file', { method: "POST", body: formData });
+  }
+  $(document).ready(function () {
+    $('#fupload').on('click', function () {
+      const formData = new FormData();
+      const input = document.querySelector('input[type="file"]');
+      formData.append('yyy', input.files);
+
+      $.ajax({
+        url: 'Ajax test upload multiple files',
+        type: 'POST',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false
+      });
+
+      fetch('Fetch test upload multiple files', {
+        method: 'POST',
+        body: formData
+      }).then(function (res) {
+        console.log('Status', res);
+      }).catch(function (e) {
+        console.log('Error', e);
+      });
+    });
+  });
+
+</script>
+
+<body>
+  // Single & multiple upload<br>
+  <input type="file" onchange="saveFile(this)">
+  <form>
+    Select images:
+    <input type="file" name="img" multiple>
+    <input type="button" id="fupload" value="Upload Files" />
+  </form>
+  <br>
+
+</html>

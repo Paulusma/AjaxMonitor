@@ -1,0 +1,34 @@
+{
+  "manifest_version": 2,
+  "name": "AjaxMonitor",
+  "description": "Monitors all Ajax calls (including fetch) and logs execution time",
+  "version": "0.8.0",
+  "content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com https://code.jquery.com; object-src 'self'",
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "AjaxMonitor.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "permissions": [
+    "tabs"
+  ],
+  "browser_action": {
+    "default_icon": "ajax_monitor.png",
+    "default_title": "Ajax Monitor"
+  },  
+  "icons": {
+    "128": "ajax_monitor.png"
+  }
+}
