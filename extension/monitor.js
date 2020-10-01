@@ -1,14 +1,8 @@
 var table;
 var tableDef;
 var tabInfo;
-//var newData = true;
 function refreshData() {
   let newTabInfo = chrome.extension.getBackgroundPage().tabRegistry.getActiveTabInfo();
-  //  if (!newData) {
-  //    $("title").text(newTabInfo.tabTitle);
-  //    return;
-  //  }
-  //  newData = false;
   tabInfo = JSON.parse(JSON.stringify(newTabInfo)); //quick-and-dirty way to make a copy of a simple object
   $("body").html(tableDef);
   $("title").text(newTabInfo.tabTitle);
@@ -17,8 +11,6 @@ function refreshData() {
     "paging": true,
     deferRender: true,
     scrollY: 600,
-  //  scrollCollapse: true,
-  //  scroller: true,
     stateSave: true,
     data: tabInfo.calls,
     buttons: ['copy'],
@@ -127,10 +119,6 @@ chrome.runtime.onMessage.addListener(function (message, sender) {
         break;
 
       case "AJXMON_ADDCALL":
-        //   case "AJXMON_UPDATECALL":
-        // case "AJXMON_REFRESHDATA":
-        // newData = true;
-
         //             console.log("ReceivNew row " + message.callInfo.id + "");
         if (!tabInfo) return;
         call = message.callInfo;
