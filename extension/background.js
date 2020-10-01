@@ -133,7 +133,7 @@ chrome.runtime.onMessage.addListener(
           chrome.runtime.sendMessage({ type: "AJXMON_REFRESHDATA" });
         break;
     }
-    console.log(Date.now() + " call handled");
+  //  console.log(Date.now() + " call handled");
   }
 );
 
